@@ -1,4 +1,5 @@
 htnl, body{ margin:0; padding:0; width:100%; height:100%; }
+*{ -webkit-backface-visibility: hidden; }
 .no-scroll-wrapper{ 
 	position:absolute;
 	margin:0;
