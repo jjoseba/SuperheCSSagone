@@ -199,20 +199,21 @@ hr {
 	position: absolute;
 	left:50%;
 	top:50%;
-	margin-top:-30px;
+	margin-top:-130px;
 	font-weight:bolder;
 	color:#fff;
 	opacity:0;
 	transition: 200ms all;
-	width:210px;
-	margin-left:-105px;
+	width:510px;
+	margin-left:-290px;
+	transform: scale(0.15);
 }
-#menu h1{ text-stroke: 1px #fff; font-size:40px; text-shadow: 7px 7px #000; margin:0;}
-#menu h2{text-stroke: 1px #fff;  margin-top: -8px; text-shadow: 5px 5px #000; font-size:26px; margin-left:15px;}
+#menu h1{ font-size:120px; text-shadow: 20px 20px #000; margin:0;}
+#menu h2{ margin-top: -30px; text-shadow: 14px 14px #000; font-size:79px; margin-left:40px; margin-bottom:0.5em;}
 #menu h2 strong{ color:#ccc; text-stroke: 1px #ccc; }
-#menu h3 {font-size:12px; text-shadow: 2px 2px #000; display:none;}
-#menu.start #title { transform:scale(2.8); opacity:1; }
-#menu.retry #title { transform:scale(2.3); opacity:1; margin-top:-160px;}
+#menu h3 {font-size:33px; text-shadow: 6px 6px #000; display:none;}
+#menu.start #title { transform:scale(1); opacity:1; }
+#menu.retry #title { transform:scale(0.82); opacity:1; margin-top:-265px;}
 #menu.start h3.start { display:block; }
 #menu.retry h3.retry { display:block; }
 #menu #best{ margin-top:160px;}
