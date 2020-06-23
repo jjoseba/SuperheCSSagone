@@ -1,45 +1,40 @@
-var hexLevel = [
-	[1, 0, 0, 1, 0, 1],
-	[1, 1, 0, 1, 1, 0],
-	[1, 0, 1, 0, 1, 1],
-	[1, 1, 1, 0, 0, 1],
-	[1, 1, 0, 1, 1, 1],
-	[1, 1, 1, 1, 1, 1],
-	[1, 1, 1, 1, 0, 1],
-	[1, 0, 1, 1, 1, 1],
-	[1, 1, 0, 0, 1, 1],
-	[0, 1, 0, 1, 0, 1],
-	[1, 0, 0, 1, 1, 1],
-	[0, 1, 0, 1, 0, 1],
-	[1, 0, 1, 0, 1, 0],
-	[0, 1, 0, 1, 0, 1],
-	[1, 0, 1, 0, 0, 1],
-	[1, 1, 1, 0, 1, 1],
-	[1, 1, 0, 1, 1, 1],
-	[1, 0, 1, 1, 1, 1],
-	[0, 1, 1, 1, 1, 1],
-	[1, 1, 1, 0, 1, 0],
-	[1, 1, 1, 1, 1, 0],
-	[1, 1, 1, 1, 1, 0],
-	[1, 1, 1, 1, 1, 0],
-	[1, 1, 1, 1, 1, 0],
-	[1, 1, 1, 1, 1, 0],
-	[1, 1, 1, 1, 1, 0]
-];
+
+var hexWaves = [
+	[
+		[1, 0, 1, 1, 1, 1],
+		[1, 1, 0, 1, 1, 0],
+		[1, 1, 1, 0, 1, 1],
+		[1, 1, 1, 1, 0, 1],
+		[1, 1, 1, 1, 1, 0],
+		[0, 1, 1, 1, 1, 1]
+	],
+	[
+		[1, 1, 0, 1, 1, 1],
+		[1, 1, 1, 1, 1, 0],
+		[1, 1, 0, 1, 1, 1],
+		[1, 1, 1, 1, 1, 0],
+		[1, 1, 1, 0, 1, 0],
+		[1, 1, 0, 1, 1, 0],
+		[1, 0, 1, 0, 1, 0],
+		[1, 1, 1, 1, 1, 0]
+	]
+]
 
 var obstacleHTML = '<div class="obstacle"><i><hr></i><i><hr></i><i><hr></i><i><hr></i><i><hr></i><i><hr></i></div>';
 var hexNum = 5;
 var cycleDuration = 4000;
 var hexDuration = cycleDuration / hexNum; 
 var rotFactor = 0.3;
+var currentWave;
 
 $(function(){
 	
 	var container = $('#container');
+	var obstaclesContainer = container.find('#obstacles');
+	var obstacles;
 	var menu = $('#menu');
 	var arrow = document.getElementById('arrow');
 	var controls = { left: false, right: false, space: false};
-	for (var i=0; i<hexNum; i++){ container.find('#obstacles').append(obstacleHTML); }
 	
 	window.onkeydown = function(e){
 		if (e.keyCode == 32){
@@ -62,22 +57,41 @@ $(function(){
 		window.msRequestAnimationFrame ||
 		function(a){setTimeout(a,20);};
 	
-	function updateHex(hex, bars){
-		obstacles.eq(hex).find('i').each(function(i){
+
+	function loadWave(){
+		var nextWave = Math.floor(Math.random() * hexWaves.length);
+		currentWave = hexWaves[nextWave].slice();
+	}
+
+	function updateHex(hexPosition){
+		hex = obstacles.eq(hexPosition);
+		bars = currentWave.shift();
+		hex.find('i').each(function(i){
 			$(this).attr('class', bars[i]?'':'hide');
 		});
+		if (currentWave.length == 0) loadWave();
+	}
+
+	function addObstacles(){
+		for (var i=0; i<hexNum; i++){ 
+			obstaclesContainer.append(obstacleHTML); 
+		}
+		obstacles = obstaclesContainer.find('.obstacle');
+		for (var i=0; i<hexNum; i++){ updateHex(i); }
 	}
 	
 	function startGame(){
 		container = container.clone().replaceAll(container).removeClass('stopped');
-		obstacles = container.find('.obstacle');
+		obstaclesContainer = container.find('#obstacles').empty();
+
 		arrow = document.getElementById('arrow');
 		menu.removeClass('start retry');
 		prevTime = startTime = new Date().getTime();	
 		lastHex = 0;
 		
 		//Cargamos los hexs iniciales
-		for (var i=0; i<hexNum; i++){ updateHex(i, hexLevel.shift()); }
+		loadWave();
+		addObstacles();
 		requestAnimationFrame(updateLogic); 
 	}
 	
@@ -117,7 +131,7 @@ $(function(){
 		if ( hexInCollisionZone( gameTime % hexDuration ) && (currentHex != lastHex) ){
 			//Actualizamos el último Hex oculto siempre que haya pasado el tiempo inicial
 			if (gameTime > (cycleDuration - hexDuration)) { 
-				updateHex(lastHex, hexLevel.shift()); 
+				updateHex(lastHex);
 				var collides = checkCollision(currentHex);
 				if (collides) endGame(gameTime);
 			}
