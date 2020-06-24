@@ -1,44 +1,56 @@
-
 var hexWaves = [
 	[
-		[1, 0, 1, 1, 1, 1],
-		[1, 1, 0, 1, 1, 0],
-		[1, 1, 1, 0, 1, 1],
-		[1, 1, 1, 1, 0, 1],
-		[1, 1, 1, 1, 1, 0],
-		[0, 1, 1, 1, 1, 1]
-	],
-	[
-		[1, 1, 0, 1, 1, 1],
-		[1, 1, 1, 1, 1, 0],
-		[1, 1, 0, 1, 1, 1],
-		[1, 1, 1, 1, 1, 0],
-		[1, 1, 1, 0, 1, 0],
-		[1, 1, 0, 1, 1, 0],
-		[1, 0, 1, 0, 1, 0],
-		[1, 1, 1, 1, 1, 0]
+		[1,0,1,1,1,1],
+		[1,1,0,1,1,0],
+		[1,1,1,0,1,1],
+		[1,1,1,1,0,1],
+		[1,1,1,1,1,0],
+		[0,1,1,1,1,1]
+	],[
+		[1,1,0,1,1,1],
+		[1,1,1,1,1,0],
+		[1,1,0,1,1,1],
+		[1,1,1,1,1,0],
+		[1,1,1,0,1,1],
+		[1,1,1,1,1,0],
+		[1,0,1,0,1,1],
+		[1,1,1,1,1,0]
+	],[
+		[1,0,1,0,1,1],
+		[0,1,1,1,0,1],
+		[1,0,1,0,1,1],
+		[1,1,1,1,1,0],
+		[0,1,1,1,1,1]
 	]
-]
+];
 
-var obstacleHTML = '<div class="obstacle"><i><hr></i><i><hr></i><i><hr></i><i><hr></i><i><hr></i><i><hr></i></div>';
 var hexNum = 5;
 var cycleDuration = 4000;
 var hexDuration = cycleDuration / hexNum; 
 var rotFactor = 0.3;
-var currentWave;
+
+var requestAnimationFrame = window.requestAnimationFrame ||
+		window.webkitRequestAnimationFrame ||
+		window.mozRequestAnimationFrame ||
+		window.oRequestAnimationFrame ||
+		window.msRequestAnimationFrame ||
+		function(a){ setTimeout(a,20); };
 
 $(function(){
-	
-	var container = $('#container');
-	var obstaclesContainer = container.find('#obstacles');
-	var obstacles;
+	var currentWave;
+	var game = $('#game');
 	var menu = $('#menu');
-	var arrow = document.getElementById('arrow');
+
+	var hex = $('.hex').hide();
+	var hexPath, hexes, arrow;
+	
 	var controls = { left: false, right: false, space: false};
+	var rotation = 0;
+	var startTime = prevTime = lastHex = 0;	
 	
 	window.onkeydown = function(e){
 		if (e.keyCode == 32){
-			if ( (container.hasClass('stopped')) && (!controls.space)){ startGame(); }
+			if ((game.hasClass('stop')) && (!controls.space)){ startGame(); }
 			controls.space = true; 
 		}
 		else if (e.keyCode == 39){ controls.left = true;  }
@@ -50,86 +62,65 @@ $(function(){
 		else if (e.keyCode == 37) { controls.right = false; }
 	};
 	
-	var requestAnimationFrame = window.requestAnimationFrame ||
-		window.webkitRequestAnimationFrame ||
-		window.mozRequestAnimationFrame ||
-		window.oRequestAnimationFrame ||
-		window.msRequestAnimationFrame ||
-		function(a){setTimeout(a,20);};
-	
-
 	function loadWave(){
 		var nextWave = Math.floor(Math.random() * hexWaves.length);
 		currentWave = hexWaves[nextWave].slice();
 	}
 
 	function updateHex(hexPosition){
-		hex = obstacles.eq(hexPosition);
-		bars = currentWave.shift();
-		hex.find('i').each(function(i){
-			$(this).attr('class', bars[i]?'':'hide');
+		hex = hexes.eq(hexPosition);
+		wave = currentWave.shift();
+		hex.find('i').each(function(side){
+			$(this).attr('class', wave[side]?'':'hide');
 		});
-		if (currentWave.length == 0) loadWave();
-	}
-
-	function addObstacles(){
-		for (var i=0; i<hexNum; i++){ 
-			obstaclesContainer.append(obstacleHTML); 
-		}
-		obstacles = obstaclesContainer.find('.obstacle');
-		for (var i=0; i<hexNum; i++){ updateHex(i); }
+		if (currentWave.length == 0) { loadWave(); }
 	}
 	
 	function startGame(){
-		container = container.clone().replaceAll(container).removeClass('stopped');
-		obstaclesContainer = container.find('#obstacles').empty();
-
-		arrow = document.getElementById('arrow');
 		menu.removeClass('start retry');
-		prevTime = startTime = new Date().getTime();	
+		game = game.clone().replaceAll(game).removeClass('stop');
+		hexPath = game.find('#hexes').empty();
+		arrow = game.find('#arrow');
+		loadWave();
 		lastHex = 0;
 		
-		//Cargamos los hexs iniciales
-		loadWave();
-		addObstacles();
+		for (i=0; i<hexNum; i++){ 
+			hexPath.append(hex.clone().show()); 
+		}
+		hexes = game.find('.hex');
+		for (i=0; i<hexNum; i++){ updateHex(i); }
+		prevTime = startTime = new Date().getTime();	
 		requestAnimationFrame(updateLogic); 
 	}
 	
 	function endGame(totalTime){
-		container.addClass('stopped');
+		game.addClass('stop');
 		menu.removeClass('start').addClass('retry');
 		var bestTime = localStorage.getItem('superhecssagon-best') || 0;
 		if (bestTime < totalTime){
 			bestTime = totalTime;
 			localStorage.setItem('superhecssagon-best', totalTime);
 		}
-		console.log(bestTime);
-		menu.find('#last').find('span').html(Math.floor(totalTime/1000)).next().html('.' + totalTime%1000)
-		menu.find('#best').find('span').html(Math.floor(bestTime/1000)).next().html('.' + bestTime%1000)
-		menu.find('.new-record').toggle(bestTime == totalTime);
+		menu.find('#last').find('span').html(Math.floor(totalTime/1000)).next().html('.' + totalTime%1000);
+		menu.find('#best').find('span').html(Math.floor(bestTime/1000)).next().html('.' + bestTime%1000);
+		menu.find('.record').toggle(bestTime == totalTime);
 	}
 	
-	function hexInCollisionZone(time){ return ((time > (hexDuration - 150)) && (time < (hexDuration - 50)));	}
+	function hexInCollisionZone(time){ return ((time > (hexDuration - 150)) && (time < (hexDuration - 50))); }
 	
 	function checkCollision(hex){
 		var sector = (Math.floor(rotation/60) + 6) % 6;
-		return !obstacles.eq(hex).children().eq(sector).hasClass('hide');
+		return !hexes.eq(hex).children().eq(sector).hasClass('hide');
 	}
 	
-	var obstacles = container.find('.obstacle');
-	var rotation = 0;
-	var startTime = prevTime = new Date().getTime();	
-	var lastHex = 0;
-	
 	var updateLogic = function(){
-		if (container.hasClass('stopped')) return;
-		
+		if (game.hasClass('stop')) return;
+
 		var now = new Date().getTime();
 		var dt = now - prevTime;
 		var currentHex = Math.ceil((now - startTime) / hexDuration) % hexNum;
 		var gameTime = now - startTime;
-		if ( hexInCollisionZone( gameTime % hexDuration ) && (currentHex != lastHex) ){
-			//Actualizamos el último Hex oculto siempre que haya pasado el tiempo inicial
+		if (hexInCollisionZone( gameTime % hexDuration ) && (currentHex != lastHex)){
 			if (gameTime > (cycleDuration - hexDuration)) { 
 				updateHex(lastHex);
 				var collides = checkCollision(currentHex);
@@ -141,7 +132,7 @@ $(function(){
 		if (controls.left) rotation += dt * rotFactor;
 		else if (controls.right) rotation -= dt * rotFactor;
 		rotation = rotation % 360;
-		if (controls.left || controls.right) arrow.style['-webkit-transform'] = 'rotate(' + rotation + 'deg)';
+		if (controls.left || controls.right) arrow.css('transform', 'rotate('+rotation+'deg)');
 		requestAnimationFrame(updateLogic);	
 	}
 });

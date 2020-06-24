@@ -1,5 +1,5 @@
-htnl, body{ margin:0; padding:0; width:100%; height:100%; }
 *{ backface-visibility: hidden; }
+html, body{ margin:0; padding:0; width:100%; height:100%; }
 .no-scroll-wrapper{ 
 	position:absolute;
 	margin:0;
@@ -7,59 +7,56 @@ htnl, body{ margin:0; padding:0; width:100%; height:100%; }
 	width:100%;
 	height:100%;
 	overflow:hidden;
-	font-family: "Orbitron";
+	font-family:"Orbitron";
 }
-hr {
+hr{
 	border-style:none;
 	margin:auto;
 	position:absolute;
 	display: block;
 }
 @keyframes bg-color{
-	0% { background-color: #711918; }
-	33% { background-color: #015963; }
-	66% { background-color: #5e4409; }
-	100% { background-color: #711918; }
+	0%  { background-color:#711918; }
+	33% { background-color:#015963; }
+	66% { background-color:#5e4409; }
+	100%{ background-color:#711918; }
 }
 @keyframes border-color{
-	0% { border-left-color: #711918;  border-right-color: #711918; }
-	33% { border-left-color: #015963;  border-right-color: #015963;}
-	66% { border-left-color: #5e4409;  border-right-color: #5e4409;}
-	100% { border-left-color: #711918;  border-right-color: #711918;}
+	0%  { border-left-color:#711918; border-right-color:#711918; }
+	33% { border-left-color:#015963; border-right-color:#015963; }
+	66% { border-left-color:#5e4409; border-right-color:#5e4409; }
+	100%{ border-left-color:#711918; border-right-color:#711918; }
 }
 @keyframes hex-color{
-	0% { background-color: #db3e45;}
-	33% { background-color: #10d6f9; }
-	66% { background-color: #d2a212; }
-	100% { background-color: #db3e45;  }
+	0%  { background-color:#db3e45; }
+	33% { background-color:#10d6f9; }
+	66% { background-color:#d2a212; }
+	100%{ background-color:#db3e45; }
 }
 @keyframes hex-border{
-	0% { border-left-color: #db3e45; }
-	33% { border-left-color: #10d6f9; }
-	66% { border-left-color: #d2a212; }
-	100% { border-left-color: #db3e45; }
+	0%  { border-left-color:#db3e45; }
+	33% { border-left-color:#10d6f9; }
+	66% { border-left-color:#d2a212; }
+	100%{ border-left-color:#db3e45; }
 }
 @keyframes skew{
-	0% { transform: scale(1.8) skew(5deg, 4deg); }
-	33% { transform: scale(1.7) skew(12deg, -9deg); }
-	66% { transform: scale(1.85) skew(-6deg, 3deg); }
-	100% { transform: scale(1.8) skew(5deg, 4deg); }
+	0%  { transform:scale(1.8) skew(5deg, 4deg); }
+	33% { transform:scale(1.7) skew(12deg, -9deg); }
+	66% { transform:scale(1.85) skew(-6deg, 3deg); }
+	100%{ transform:scale(1.8) skew(5deg, 4deg); }
 }
-@keyframes linear-rot
-{ from {transform: scale(0.5) rotate(0deg); } to {transform:  scale(0.5) rotate(360deg);} }
-@keyframes hex-rot
-{ from {transform: scale(0.2) rotate(0deg); } to {transform: scale(0.2) rotate(360deg);} }
-@keyframes reduce
-{ from {transform: scale(7); } to {transform: scale(0.1);} }
-@keyframes reduce-bar
-{ 0% { height:0.3%; } 85% { height:1%; } 100%{ height:2.3%; }}
-#container{
+@keyframes linear-rot{ from {transform:scale(0.5) rotate(0deg); } to{transform:scale(0.5) rotate(360deg);} }
+@keyframes hex-rot{ from {transform:scale(0.2) rotate(0deg); } to{transform:scale(0.2) rotate(360deg);} }
+@keyframes reduce{ from {transform:scale(7); } to {transform:scale(0.1);} }
+@keyframes reduce-bar{ 0%{ height:0.3%; } 85%{ height:1%; } 100%{ height:2.3%; }}
+
+#game{
 	width:100%;
 	height:100%;
 	position:absolute;
 	overflow:hidden;
 	transform-origin: 50% 50%;
-	animation: bg-color linear infinite, sksew linear infinite;
+	animation:bg-color linear infinite, sksew linear infinite;
 	animation-duration: 7000ms, 4000ms;
 	transform:scale(1.8);
 }
@@ -73,56 +70,51 @@ hr {
 	transform-origin: 50% 50%;
 	transform-style: preserve-3d;
 	perspective-origin: 50% 50%;
-	perspective: 200px;
+	perspective:200px;
 }
-#hex-bg{
-	animation: linear-rot linear infinite;
-	animation-duration: 3000ms;
+#hex-bg, #hexes{
+	animation:linear-rot linear infinite;
+	animation-duration:3000ms;
 }
 #hex-bg hr{
 	top:50%;
 	left:20%;
-	width: 0; 
-	height: 0; 
-	border-left: 900px solid transparent;
-	border-right: 900px solid transparent;
-	border-bottom: 1540px solid rgba(0,0,0, 0.3);
-	transform-origin: 50% 0;
+	width:0; 
+	height:0; 
+	border-left:900px solid transparent;
+	border-right:900px solid transparent;
+	border-bottom:1540px solid rgba(0,0,0, 0.3);
+	transform-origin:50% 0;
 }
-#hex-bg hr:nth-child(2) {	transform:rotate(120deg); }
-#hex-bg hr:nth-child(3) { transform:rotate(240deg); }
-#obstacles{
-	animation: linear-rot linear infinite;
-	animation-duration: 3000ms;
-}
-.obstacle, .obstacle > i, #hexagon > i{
+#hex-bg hr:nth-child(2){ transform:rotate(120deg); }
+#hex-bg hr:nth-child(3){ transform:rotate(240deg); }
+.hex, .hex > i, #hexagon > i{
 	display:block;
 	width:100%;
 	height:100%;
 	margin:auto;
 	position:absolute;
-	transform-origin: 50% 50%;
-	transform-style: preserve-3d;
+	transform-origin:50% 50%;
+	transform-style:preserve-3d;
 }
-.obstacle{ 
-	transform: scale(7); 
-	animation: reduce ease-in infinite;
-	animation-duration: 4000ms;
+.hex{ 
+	transform:scale(7); 
+	animation:reduce ease-in infinite;
+	animation-duration:4000ms;
 }
-.obstacle > i.hide{ opacity:0; }
-.obstacle > i > hr, #hexagon > i > hr{
-	width: 5.79%;
-	top: 55%;
-	left: 50%;
-	margin-left: -2.895%;
-	height: 0.5%;
+.hex > i > hr, #hexagon > i > hr{
+	width:5.79%;
+	top:55%;
+	left:50%;
+	margin-left:-2.895%;
+	height:0.5%;
 	transform-origin:50% 0;
-	transform: rotate3d(1, 0, 0, 90deg);
+	transform:rotate3d(1, 0, 0, 90deg);
 	background-color:#fff;
 }
-#hexagon { 
-	animation: hex-rot linear infinite;
-	animation-duration: 3000ms;
+#hexagon{ 
+	animation:hex-rot linear infinite;
+	animation-duration:3000ms;
 }
 #hexagon > span{
 	width:180px;
@@ -133,67 +125,68 @@ hr {
 	top:50%;
 	left:50%;
 	margin:-150px -90px;
-	animation: bg-color linear infinite;
-	animation-duration: 7000ms;
+	animation:bg-color linear infinite;
+	animation-duration:7000ms;
 }
 #hexagon > span:after{
 	margin-left:177px;
 	content:"";
 	display:block;
 	position:absolute;
-	animation: border-color linear infinite;
-	animation-duration: 7000ms;
-	border-top: 150px solid transparent !important;
-	border-bottom: 150px solid transparent !important;
-	border-left: 90px solid;
+	animation:border-color linear infinite;
+	animation-duration:7000ms;
+	border-top:150px solid transparent !important;
+	border-bottom:150px solid transparent !important;
+	border-left:90px solid;
 }
 #hexagon > span:before{
 	margin-left:-87px;
 	content:"";
 	display:block;
 	position:absolute;
-	animation: border-color linear infinite;
-	animation-duration: 7000ms;
-	border-top: 150px solid transparent !important;
-	border-bottom: 150px solid transparent !important;
-	border-right: 90px solid;
+	animation:border-color linear infinite;
+	animation-duration:7000ms;
+	border-top:150px solid transparent !important;
+	border-bottom:150px solid transparent !important;
+	border-right:90px solid;
 }
- #hexagon > i > hr{
-	animation: hex-color linear infinite;
-	animation-duration: 7000ms;
+#hexagon > i > hr{
+	animation:hex-color linear infinite;
+	animation-duration:7000ms;
 }
- #hexagon > #arrow{
+#hexagon > #arrow{
 	top:50%;
 	left:50%;
-	margin: -40px 210px;
+	margin:-40px 210px;
 	position:absolute;
-	border-top: 30px solid transparent !important;
-	border-bottom: 40px solid transparent !important;
-	border-left: 40px solid  !important;
-	border-right: 0px solid transparent !important;
-	animation: hex-border linear infinite;
-	animation-duration: 7000ms;
-	transform-origin: -530% 50%;
-	transform: rotate(0deg);
+	border-top:30px solid transparent !important;
+	border-bottom:40px solid transparent !important;
+	border-left:40px solid  !important;
+	border-right:0px solid transparent !important;
+	animation:hex-border linear infinite;
+	animation-duration:7000ms;
+	transform-origin:-530% 50%;
+	transform:rotate(0deg);
  }
-.obstacle > i > hr{ 
-	animation: reduce-bar ease-in infinite, hex-color linear infinite;
-	animation-duration: 4000ms,7000ms;
+.hex > i.hide{ opacity:0; }
+.hex > i > hr{ 
+	animation:reduce-bar ease-in infinite, hex-color linear infinite;
+	animation-duration:4000ms,7000ms;
 }
-.obstacle > i:nth-child(1), #hexagon > i:nth-child(2) { transform:rotate(300deg); }
-.obstacle > i:nth-child(2), #hexagon > i:nth-child(3) { transform:rotate(0deg); }
-.obstacle > i:nth-child(3), #hexagon > i:nth-child(4) { transform:rotate(60deg); }
-.obstacle > i:nth-child(4), #hexagon > i:nth-child(5) { transform:rotate(120deg); }
-.obstacle > i:nth-child(5), #hexagon > i:nth-child(6) { transform:rotate(180deg); }
-.obstacle > i:nth-child(6), #hexagon > i:nth-child(7) { transform:rotate(240deg); }
+.hex > i:nth-child(1), #hexagon > i:nth-child(2){ transform:rotate(300deg); }
+.hex > i:nth-child(2), #hexagon > i:nth-child(3){ transform:rotate(0deg);   }
+.hex > i:nth-child(3), #hexagon > i:nth-child(4){ transform:rotate(60deg);  }
+.hex > i:nth-child(4), #hexagon > i:nth-child(5){ transform:rotate(120deg); }
+.hex > i:nth-child(5), #hexagon > i:nth-child(6){ transform:rotate(180deg); }
+.hex > i:nth-child(6), #hexagon > i:nth-child(7){ transform:rotate(240deg); }
 
-.obstacle:nth-child(2), .obstacle:nth-child(2) > i > hr { animation-delay:800ms,0s; }
-.obstacle:nth-child(3), .obstacle:nth-child(3) > i > hr { animation-delay:1600ms,0s; }
-.obstacle:nth-child(4), .obstacle:nth-child(4) > i > hr { animation-delay:2400ms,0s; }
-.obstacle:nth-child(5), .obstacle:nth-child(5) > i > hr { animation-delay:3200ms,0s; }
+.hex:nth-child(2), .hex:nth-child(2) > i > hr{ animation-delay:800ms,0s;  }
+.hex:nth-child(3), .hex:nth-child(3) > i > hr{ animation-delay:1600ms,0s; }
+.hex:nth-child(4), .hex:nth-child(4) > i > hr{ animation-delay:2400ms,0s; }
+.hex:nth-child(5), .hex:nth-child(5) > i > hr{ animation-delay:3200ms,0s; }
 
-.stopped { transition: 200ms all; transform: scale(18) !important;  }
-.stopped .obstacle, .stopped #arrow { display:none; }
+.stop{ transition:200ms all; transform:scale(18) !important; }
+.stop .hex, .stop #arrow{ display:none; }
 
 #menu #title{
 	position: absolute;
@@ -203,51 +196,49 @@ hr {
 	font-weight:bolder;
 	color:#fff;
 	opacity:0;
-	transition: 200ms all;
+	transition:200ms all;
 	width:510px;
 	margin-left:-290px;
-	transform: scale(0.15);
+	transform:scale(0.15);
 }
-#menu h1{ font-size:120px; text-shadow: 20px 20px #000; margin:0;}
-#menu h2{ margin-top: -30px; text-shadow: 14px 14px #000; font-size:79px; margin-left:40px; margin-bottom:0.5em;}
-#menu h2 strong{ color:#ccc; text-stroke: 1px #ccc; }
-#menu h3 {font-size:33px; text-shadow: 6px 6px #000; display:none;}
-#menu.start #title { transform:scale(1); opacity:1; }
-#menu.retry #title { transform:scale(0.82); opacity:1; margin-top:-265px;}
-#menu.start h3.start { display:block; }
-#menu.retry h3.retry { display:block; }
-#menu #best{ margin-top:160px;}
-#menu #best .new-record{ font-size: 30px; position:relative; top:-10px; left:10px; }
-#menu #last{ margin-top:50px;}
+#menu h1{ font-size:120px; text-shadow:20px 20px #000; margin:0; }
+#menu h2{ margin-top:-30px; text-shadow:14px 14px #000; font-size:79px; margin-left:40px; margin-bottom:0.5em; }
+#menu h2 strong{ color:#aaa;}
+#menu h3 { font-size:33px; text-shadow:6px 6px #000; display:none; }
+#menu.start #title{ transform:scale(1); opacity:1; }
+#menu.retry #title{ transform:scale(0.82); opacity:1; margin-top:-265px; }
+#menu.start h3.start, #menu.retry h3.retry{ display:block; }
+#menu #best{ margin-top:160px; }
+#menu #last{ margin-top:50px; }
+#menu .record{ font-size:30px; position:relative; top:-10px; left:10px; }
 #menu .time{ 
-	position: absolute;
+	position:absolute;
 	left:50%;
 	top:50%;
 	font-weight:bolder;
 	color:#fff;
 	overflow:hidden;
 	margin-left:120px;
-	transition: all 500ms;
-	transform: scale(1.2) translateX(2000px);
+	transition:all 500ms;
+	transform:scale(1.2) translateX(2000px);
 }
-#menu.retry .time{ transform: scale(1.3) translateX(0px); }
-
+#menu.retry .time{ transform:scale(1.3) translateX(0px); }
 .time label{
 	float:left;
 	background-color:#000;
 	font-size:30px;
-	padding: 3px 60px 3px 5px;
+	padding:3px 60px 3px 5px;
 	position:relative;
 }
 .time label:before{
-	content: '';
-	border-bottom: transparent;
-	border-left: 37px solid transparent;
-	border-right: 0px solid transparent;
-	border-top: 26px solid #000;
-	position: absolute;
-	top: 34px;
-	right: 0;
+	content:'';
+	border-bottom:transparent;
+	border-left:37px solid transparent;
+	border-right:0px solid transparent;
+	border-top:26px solid #000;
+	position:absolute;
+	top:34px;
+	right:0;
 }
 .time > div{
 	float:left;
@@ -261,6 +252,6 @@ hr {
 .time span{
 	font-size:60px;
 	line-height:60px;
-	padding-left: 20px;
+	padding-left:20px;
 }
-.time strong{ font-size:20px; display:inline-block; color:#ccc;}
+.time strong{ font-size:20px; display:inline-block; color:#aaa; }
